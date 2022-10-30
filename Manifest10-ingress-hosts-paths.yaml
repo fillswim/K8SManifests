@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+  labels:
+    name: myingress-paths
+spec:
+  rules:
+
+  - host: www.fill1.net
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/page1" # Если идет запрос на www.fill1.net/page1
+        backend:
+          service:
+            name: mygif-deployment1 # Запрос перешлется на mygif-deployment1/page1
+            port: 
+              number: 8080
+
+  - host: www.fill2.net
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/page2"
+        backend:
+          service:
+            name: mygif-deployment2 # # Запрос перешлется на mygif-deployment2/page2
+            port: 
+              number: 8080
+              
+  - host: www.fill3.net
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/page3"
+        backend:
+          service:
+            name: mygif-deployment3 # # Запрос перешлется на mygif-deployment3/page3
+            port: 
+              number: 8080
