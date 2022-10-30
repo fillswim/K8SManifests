@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-gif-deployment
+  labels:
+    app: my-k8s-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mygif-app
+      project: mygif-project
+  template:
+    metadata:
+      labels:
+        app: mygif-app # Сервис будет искать эти лейблы. Сервис будет этому подключаться
+        project: mygif-project
+    spec:
+      containers:
+      - name: mygif-container
+        image: fillswim/mygifservice:latest
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mygif-service
+  labels:
+    env: prod
+    owner: OlegFilatov
+spec:
+  type: LoadBalancer
+  selector:
+    app: mygif-app # Selecting pods, Будет распределять трафик на поды с этими лейблами
+    project: mygif-project
+  ports:
+  - port: 8080 # port on Load Balancer
+    targetPort: 8080 # port on pod

@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mygif-app-autoscalling # На нем будет проводиться auto-scalling
+  labels:
+    app: my-k8s-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mygif-app
+      project: mygif-project
+  template:
+    metadata:
+      labels:
+        app: mygif-app          # Эти поды будут выбираться для сервиса
+        project: mygif-project
+    spec:
+      containers:
+      - name: mygif-container
+        image: fillswim/mygifservice:latest
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mygif-autoscaling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mygif-app-autoscalling
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mygif-service
+  labels:
+    env: prod
+    owner: OlegFilatov
+spec:
+  type: LoadBalancer
+  selector:
+    app: mygif-app          # Выбираются из деплоймента
+    project: mygif-project
+  ports:
+  - port: 8080              # port on Load Balancer
+    targetPort: 8080        # port on pod

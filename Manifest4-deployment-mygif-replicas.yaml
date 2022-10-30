@@ -1,0 +1,29 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: mygif-deployment-replicas
+  labels:
+    app: mygif-app
+    env: prod
+    owner: OlegFilatov
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mygif-app
+      project: mygif-project2
+  template:
+    metadata:
+      labels:
+        app: mygif-app
+        project: mygif-project2
+    spec:
+      containers:
+      - name: mygif-container
+        image: fillswim/mygifservice:latest
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080

@@ -1,0 +1,26 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: mygif-deployment
+  labels:
+    app: mygif-app
+spec:
+  selector:
+    matchLabels:
+      app: mygif-app
+      project: mygif-project
+  template:
+    metadata:
+      labels:
+        app: mygif-app
+        project: mygif-project
+    spec:
+      containers:
+      - name: mygif-container
+        image: fillswim/mygifservice:latest
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
