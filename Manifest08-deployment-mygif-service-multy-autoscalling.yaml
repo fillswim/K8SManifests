@@ -4,19 +4,19 @@ metadata:
   name: mygif-app-autoscalling          # Название деплоймента (будет использоваться в автоселлере)
   labels:
     app: my-k8s-deployment
-spec:
-  selector:
+spec:                                   # Спецификация
+  selector:                             # С какими подами будет работать деплоймент должны совпадать с (template/metadata/labels)
     matchLabels:
       app: mygif-app
       project: mygif-project
   template:
-    metadata:
-      labels:
+    metadata:                           # Описание пода
+      labels:                           # Должны совпадать с selector / Сервис будет искать эти лейблы
         app: mygif-app                  # Эти поды будут выбираться для сервиса
         project: mygif-project
     spec:
-      containers:
-      - name: mygif-container
+      containers:                       # Какие контейнеры будут запускаться в подах
+      - name: mygif-container           # Контейнер № 1
         image: fillswim/mygifservice:latest
         resources:
           limits:
