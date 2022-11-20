@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-gif-deployment-multy
+  name: my-gif-deployment-multy             # Название деплоймента
   labels:
     app: my-k8s-deployment-multy
-spec:
-  replicas: 3
-  selector:
+spec:                                       # Спецификация
+  replicas: 3                               # Количество запускаемых подов
+  selector:                                 # С какими подами будет работать деплоймент должны совпадать с (template/metadata/labels)
     matchLabels:
       app: mygif-app-multy
       project: mygif-project-multy
   template:
-    metadata:
-      labels:
-        app: mygif-app-multy # Сервис будет искать эти лейблы
+    metadata:                               # Описание пода
+      labels:                               # Должны совпадать с selector / Сервис будет искать эти лейблы
+        app: mygif-app-multy
         project: mygif-project-multy
     spec:
-      containers:
+      containers:                           # Какие контейнеры будут запускаться в подах
 
-      - name: mygif-container
+      - name: mygif-container               # Контейнер № 1
         image: fillswim/mygifservice:latest
         resources:
           limits:
@@ -27,7 +27,7 @@ spec:
         ports:
         - containerPort: 8080
 
-      - name: tomcat-container
+      - name: tomcat-container              # Контейнер № 2
         image: tomcat:8.5.38
         resources:
           limits:
@@ -47,13 +47,13 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: mygif-app-multy # Selecting pods, Будет распределять трафик на поды с этими лейблами
+    app: mygif-app-multy                    # Selecting pods, Будет распределять трафик на поды с этими лейблами
     project: mygif-project-multy
   ports:
     - name: mugif-pors
-      port: 8080 # port on Load Balancer
-      targetPort: 8080 # port on pod
+      port: 8080                            # port on Load Balancer
+      targetPort: 8080                      # port on pod
 
     - name: tomcat-pors
-      port: 8888 # port on Load Balancer (внешний)
-      targetPort: 8081 # port on pod
+      port: 8888                            # port on Load Balancer (внешний)
+      targetPort: 8081                      # port on pod

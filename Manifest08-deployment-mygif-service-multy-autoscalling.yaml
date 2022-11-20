@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mygif-app-autoscalling # На нем будет проводиться auto-scalling
+  name: mygif-app-autoscalling          # Название деплоймента (будет использоваться в автоселлере)
   labels:
     app: my-k8s-deployment
 spec:
@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        app: mygif-app          # Эти поды будут выбираться для сервиса
+        app: mygif-app                  # Эти поды будут выбираться для сервиса
         project: mygif-project
     spec:
       containers:
@@ -29,14 +29,14 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: mygif-autoscaling
+  name: mygif-autoscaling                 # Как будет называться автоскеллер
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
-    kind: Deployment
-    name: mygif-app-autoscalling
-  minReplicas: 2
-  maxReplicas: 6
+    kind: Deployment                      # Что будет автоскеллить
+    name: mygif-app-autoscalling          # С каким названием деплоймент будет автоскеллить (совпадает с названием деплоймента)
+  minReplicas: 2                          # Минимальное количество подов 
+  maxReplicas: 6                          # Максимальное количество подов
   metrics:
   - type: Resource
     resource:
@@ -56,8 +56,8 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: mygif-app          # Выбираются из деплоймента
+    app: mygif-app                      # Выбираются из деплоймента
     project: mygif-project
   ports:
-  - port: 8080              # port on Load Balancer
-    targetPort: 8080        # port on pod
+  - port: 8080                          # port on Load Balancer
+    targetPort: 8080                    # port on pod
