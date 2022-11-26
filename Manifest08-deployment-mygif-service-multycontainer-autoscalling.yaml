@@ -56,8 +56,8 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: mygif-app                      # Выбираются из деплоймента
+    app: mygif-app                        # Выбираются из деплоймента
     project: mygif-project
   ports:
-  - port: 8080                          # port on Load Balancer
-    targetPort: 8080                    # port on pod
+  - port: 8080                            # port on Load Balancer
+    targetPort: 8080                      # port on pod
