@@ -1,21 +1,21 @@
 apiVersion : apps/v1
 kind: Deployment
-metadata:
-  name: mygif-deployment
-  labels:
+metadata:                                         ### Описание деплоймента
+  name: mygif-deployment                          # Название деплоймента
+  labels:                                         # Лейбл деплоймента
     app: mygif-app
-spec:
-  selector:
-    matchLabels:
+spec:                                             ### Спецификация
+  selector:                                       
+    matchLabels:                                  # С какими лейблами подов будет работать деплоймент
       app: mygif-app
       project: mygif-project
-  template:
-    metadata:
-      labels:
+  template:                                       ### Описание подов
+    metadata:                                     ## Описание пода № 1
+      labels:                                     # Лейблы подов Должны совпадать с selector
         app: mygif-app
         project: mygif-project
     spec:
-      containers:
+      containers:                                 # Какие контейнеры будут запускаться в подах
       - name: mygif-container
         image: fillswim/mygifservice:latest
         resources:
@@ -23,4 +23,4 @@ spec:
             memory: "1024Mi"
             cpu: "500m"
         ports:
-        - containerPort: 8080
+        - containerPort: 8080                     # Открытый порт

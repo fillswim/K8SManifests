@@ -1,26 +1,26 @@
 apiVersion : apps/v1
 kind: Deployment
-metadata:
-  name: mygif-deployment-autoscaling
-  labels:
+metadata:                                               ### Описание деплоймента
+  name: mygif-deployment-autoscaling                    # Название деплоймента
+  labels:                                               # Лейбл деплоймента
     app: mygif-app
     env: prod
     owner: OlegFilatov
-spec:
-  replicas: 3
+spec:                                                   ### Спецификация
+  replicas: 3                                           # !Количество реплик пода
   selector:
-    matchLabels:
+    matchLabels:                                        # С какими лейблами подов будет работать деплоймент
       app: mygif-app
       project: mygif-project-autoscaling
-  template:
-    metadata:
-      labels:
+  template:                                             ### Описание подов
+    metadata:                                           ## Описание пода № 1
+      labels:                                           # Лейблы подов Должны совпадать с selector
         app: mygif-app
         project: mygif-project-autoscaling
     spec:
-      containers:
+      containers:                                       # Какие контейнеры будут запускаться в подах
       - name: mygif-container
-        image: fillswim/mygifservice:latest
+        image: fillswim/mygifservice:latest             # Можно менять версии (Являетс япеременной в Helm Chart)
         resources:
           limits:
             memory: "1024Mi"
@@ -29,17 +29,17 @@ spec:
         - containerPort: 8080
 
 ---
-apiVersion: autoscaling/v2
+apiVersion: autoscaling/v2                              ### Описание autoscaling
 kind: HorizontalPodAutoscaler
 metadata:
-  name: mygig-autoscaling
+  name: mygig-autoscaling                               # Название autoscaling
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
-    kind: Deployment
-    name: mygif-deployment-autoscaling
-  minReplicas: 2
-  maxReplicas: 6
+    kind: Deployment                                    # Что будет аутоскелить - Deployment
+    name: mygif-deployment-autoscaling                  # Название деплоймента, который будет аутоскелиться
+  minReplicas: 2                                        # Минимальное количество подов
+  maxReplicas: 6                                        # Максимальное количество подов
   metrics:
   - type: Resource
     resource:
