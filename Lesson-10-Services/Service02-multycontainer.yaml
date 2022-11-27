@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:                                   ### Описание деплоймента
+  name: my-gif-deployment-multy             # Название деплоймента
+  labels:                                   # Лейбл деплоймента
+    app: my-k8s-deployment-multy
+spec:                                       ### Спецификация
+  replicas: 3                               # Количество реплик пода
+
+  selector:
+    matchLabels:                            # С какими лейблами подов будет работать деплоймент
+      app: mygif-app-multy
+      project: mygif-project-multy
+
+  template:                                 ### Описание подов
+  
+    metadata:                               ## Описание пода № 1
+      labels:                               # Лейблы подов Должны совпадать с selector
+        app: mygif-app-multy                #! Сервис будет искать поды с этими лейблы, чтобы на них распределять трафик
+        project: mygif-project-multy
+        
+    spec:
+      containers:                           # Какие контейнеры будут запускаться в подах
+
+      - name: mygif-container               # Контейнер № 1
+        image: fillswim/mygifservice:latest
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080               #!! Порт на поде
+
+      - name: tomcat-container              # Контейнер № 2
+        image: tomcat:8.5.38
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 8081             #!! Порт на поде
+
+---
+apiVersion: v1                              ### Описание Сервиса
+kind: Service
+
+metadata:
+  name: mygif-service-multy                 # Имя сервиса
+  labels:                                   # Лейблы сервиса
+    env: prod
+    owner: OlegFilatov
+
+spec:
+  type: LoadBalancer                        # Тип сервиса
+
+  selector:
+    app: mygif-app-multy                    #! На поды с какими лейблами будет работать сервис, распространять трафик
+    project: mygif-project-multy
+
+  ports:
+    - name: mugif-pors
+      port: 8080                            # Какой на Load Balancer будет открыть порт (внешний)
+      targetPort: 8080                      #!! Порт на поде
+
+    - name: tomcat-pors
+      port: 8888                            # Какой на Load Balancer будет открыть порт (внешний)
+      targetPort: 8081                      #!! Порт на поде

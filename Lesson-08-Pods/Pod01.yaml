@@ -1,0 +1,20 @@
+apiVersion : v1
+kind: Pod                                   # Что мы создаем - Под
+metadata:                                   # Описание пода
+  name: gifpod                              # Наименование пода
+  labels:                                   # Лейбл пода
+    name: myGifLabel
+    env: prod
+    app: main
+    tier: frontend
+    owner: OlegFilatov
+spec:
+  containers:                               # Описание контейнеров
+  - name: container-gif                     # Имя контейнера № 1
+    image: fillswim/mygifservice:latest     # Образ контейнера
+    resources:
+      limits:
+        memory: "1024Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 8080                 # Открытый порт
