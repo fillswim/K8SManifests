@@ -2,28 +2,28 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:                               ### Описание деплоймента
-  name: mygif-app-autoscalling          # Название деплоймента (будет использоваться в автоселлере)
+  name: mygifservice-deployment         # Название деплоймента (будет использоваться в автоселлере)
   labels:                               # Лейбл деплоймента
-    app: my-k8s-deployment
+    app: mygifservice-deployment-app
     
 spec:                                   ### Спецификация
   selector:                             # С какими подами будет работать деплоймент должны совпадать с (template/metadata/labels)
 
     matchLabels:                        # С какими лейблами подов будет работать деплоймент
-      app: mygif-app
-      project: mygif-project
+      app: mygifservice-pod
+      project: mygifservice-project
 
   template:                             ### Описание подов
 
     metadata:                           ## Описание пода № 1
       labels:                           # Лейблы подов Должны совпадать с selector
-        app: mygif-app                  #! Сервис будет искать поды с этими лейблы, чтобы на них распределять трафик
-        project: mygif-project
+        app: mygifservice-pod                  #! Сервис будет искать поды с этими лейблы, чтобы на них распределять трафик
+        project: mygifservice-project
 
     spec:
       containers:                       # Какие контейнеры будут запускаться в подах
 
-      - name: mygif-container           # Контейнер № 1
+      - name: mygifservice-container    # Контейнер № 1
         image: fillswim/mygifservice:latest
         resources:
           limits:
@@ -37,13 +37,13 @@ apiVersion: autoscaling/v2                ### Описание autoscaling
 kind: HorizontalPodAutoscaler
 
 metadata:
-  name: mygif-autoscaling                 # Название autoscaling
+  name: mygifservice-autoscaling          # Название autoscaling
 
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment                      # Что будет аутоскелить - Deployment
-    name: mygif-app-autoscalling          # С каким названием деплоймент будет автоскеллить (совпадает с названием деплоймента)
+    name: mygifservice-deployment         # С каким названием деплоймент будет автоскеллить (совпадает с названием деплоймента)
 
   minReplicas: 2                          # Минимальное количество подов 
   maxReplicas: 6                          # Максимальное количество подов
@@ -61,7 +61,7 @@ apiVersion: v1                            ### Описание Сервиса
 kind: Service
 
 metadata:                                 # Имя сервиса
-  name: mygif-service
+  name: mygifservice-service
   labels:                                 # Лейблы сервиса
     env: prod
     owner: OlegFilatov
@@ -70,8 +70,8 @@ spec:
   type: LoadBalancer                      # Тип сервиса
 
   selector:
-    app: mygif-app                        #! На поды с какими лейблами будет работать сервис, распространять трафик
-    project: mygif-project
+    app: mygifservice-pod                 #! На поды с какими лейблами будет работать сервис, распространять трафик
+    project: mygifservice-project
 
   ports:
   - port: 8080                            # Какой на Load Balancer будет открыть порт (внешний)

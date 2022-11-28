@@ -1,28 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
+
 metadata:                                   ### Описание деплоймента
-  name: my-gif-deployment-multy             # Название деплоймента
+  name: mygifservice-tomcat-deployment      # Название деплоймента
   labels:                                   # Лейбл деплоймента
-    app: my-k8s-deployment-multy
+    app: mygifservice-tomcat-app
+
 spec:                                       ### Спецификация
   replicas: 3                               # Количество реплик пода
 
   selector:
     matchLabels:                            # С какими лейблами подов будет работать деплоймент
-      app: mygif-app-multy
-      project: mygif-project-multy
+      app: mygifservice-tomcat-pod
+      project: mygifservice-tomcat-pod-project
 
   template:                                 ### Описание подов
   
     metadata:                               ## Описание пода № 1
       labels:                               # Лейблы подов Должны совпадать с selector
-        app: mygif-app-multy                #! Сервис будет искать поды с этими лейблы, чтобы на них распределять трафик
-        project: mygif-project-multy
+        app: mygifservice-tomcat-pod        #! Сервис будет искать поды с этими лейблы, чтобы на них распределять трафик
+        project: mygifservice-tomcat-pod-project
         
     spec:
       containers:                           # Какие контейнеры будут запускаться в подах
 
-      - name: mygif-container               # Контейнер № 1
+      - name: mygifservice-container        # Контейнер № 1
         image: fillswim/mygifservice:latest
         resources:
           limits:
@@ -45,7 +47,7 @@ apiVersion: v1                              ### Описание Сервиса
 kind: Service
 
 metadata:
-  name: mygif-service-multy                 # Имя сервиса
+  name: mygifservice-tomcat-service         # Имя сервиса
   labels:                                   # Лейблы сервиса
     env: prod
     owner: OlegFilatov
@@ -54,11 +56,11 @@ spec:
   type: LoadBalancer                        # Тип сервиса
 
   selector:
-    app: mygif-app-multy                    #! На поды с какими лейблами будет работать сервис, распространять трафик
-    project: mygif-project-multy
+    app: mygifservice-tomcat-pod            #! На поды с какими лейблами будет работать сервис, распространять трафик
+    project: mygifservice-tomcat-pod-project
 
   ports:
-    - name: mugif-pors
+    - name: mygifservice-pors
       port: 8080                            # Какой на Load Balancer будет открыть порт (внешний)
       targetPort: 8080                      #!! Порт на поде
 

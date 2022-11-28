@@ -1,25 +1,29 @@
 apiVersion : apps/v1
 kind: Deployment
+
 metadata:                                     ### Описание деплоймента
-  name: mygif-deployment-replicas             # Название деплоймента
+  name: mygifservice-deployment               # Название деплоймента
   labels:                                     # Лейбл деплоймента
-    app: mygif-app
+    app: mygifservice-app
     env: prod
     owner: OlegFilatov
+
 spec:                                         ### Спецификация
   replicas: 3                                 # !Количество реплик пода
+
   selector:
     matchLabels:                              # С какими лейблами подов будет работать деплоймент
-      app: mygif-app
-      project: mygif-project2
+      app: mygifservice-app
+      project: mygifservice-project
+
   template:                                   ### Описание подов
     metadata:                                 ## Описание пода № 1
       labels:                                 # Лейблы подов Должны совпадать с selector
-        app: mygif-app
-        project: mygif-project2
+        app: mygifservice-app
+        project: mygifservice-project
     spec:
       containers:                             # Какие контейнеры будут запускаться в подах
-      - name: mygif-container
+      - name: mygifservice-container
         image: fillswim/mygifservice:latest
         resources:
           limits:

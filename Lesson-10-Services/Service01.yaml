@@ -1,25 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
+
 metadata:                                     ### Описание деплоймента
-  name: my-gif-deployment                     # Название деплоймента
+  name: mygifservice-deployment               # Название деплоймента
   labels:                                     # Лейбл деплоймента
-    app: my-k8s-deployment
+    app: mygifservice-deployment-app
+    
 spec:                                         ### Спецификация
   replicas: 3                                 # Количество реплик пода
 
   selector:
     matchLabels:                              # С какими лейблами подов будет работать деплоймент
-      app: mygif-app
-      project: mygif-project
+      app: mygifservice-pod
+      project: mygifservice-project
       
   template:                                   ### Описание подов
     metadata:                                 ## Описание пода № 1
       labels:                                 # Лейблы подов Должны совпадать с selector
-        app: mygif-app                        #! Сервис будет искать поды с этими лейблы, чтобы на них распределять трафик
-        project: mygif-project
+        app: mygifservice-pod                 #! Сервис будет искать поды с этими лейблы, чтобы на них распределять трафик
+        project: mygifservice-project
     spec:
       containers:                             # Какие контейнеры будут запускаться в подах
-      - name: mygif-container
+      - name: mygifservice-container
         image: fillswim/mygifservice:latest   # Можно менять версии (Является япеременной в Helm Chart)
         resources:
           limits:
@@ -31,16 +33,18 @@ spec:                                         ### Спецификация
 ---
 apiVersion: v1                                ### Описание Сервиса
 kind: Service
+
 metadata:
-  name: mygif-service                         # Имя сервиса
+  name: mygifservice-service                  # Имя сервиса
   labels:                                     # Лейблы сервиса
     env: prod
     owner: OlegFilatov
+
 spec:
   type: LoadBalancer                          # Тип сервиса
   selector:
-    app: mygif-app                            #! На поды с какими лейблами будет работать сервис, распространять трафик
-    project: mygif-project
+    app: mygifservice-pod                     #! На поды с какими лейблами будет работать сервис, распространять трафик
+    project: mygifservice-project
   ports:
   - port: 8080                                # Какой на Load Balancer будет открыть порт
     targetPort: 8080                          #!! Порт на поде

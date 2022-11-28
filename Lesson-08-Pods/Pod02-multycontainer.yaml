@@ -1,9 +1,9 @@
 apiVersion : v1
 kind: Pod                                       # Что мы создаем - Под
 metadata:                                       # Описание пода
-  name: gifpod                                  # Наименование пода
+  name: mygifservice-pod                        # Наименование пода
   labels:                                       # Лейбл пода
-    name: myGifLabel
+    name: mygifservice-label
     env: prod
     app: main
     tier: frontend
@@ -11,7 +11,7 @@ metadata:                                       # Описание пода
 spec:
   containers:                                   # Описание контейнеров
 
-  - name: container-gif                         #! Имя контейнера № 1
+  - name: mygifservice-container                #! Имя контейнера № 1
     image: fillswim/mygifservice:latest         # Образ контейнера
     resources:
       limits:
@@ -20,7 +20,7 @@ spec:
     ports:
       - containerPort: 8080                     # Открытый порт
 
-  - name: container-tomcat                      #! Имя контейнера № 2
+  - name: tomcat-container                      #! Имя контейнера № 2
     image: tomcat:8.5.38                        # Образ контейнера
     resources:
       limits:
