@@ -1,0 +1,6 @@
+# Default values for my Helm Chart
+
+container:
+  image: fillswim/mygifservice:latest
+
+replicaCount: 2
