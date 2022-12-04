@@ -1,9 +1,9 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:                                               ### Описание деплоймента
-  name: {{ .Release.name }}-deployment                         # Название деплоймента (будет использоваться в автоселлере)
+  name: {{ .Release.Name }}-deployment                         # Название деплоймента (будет использоваться в автоселлере)
   labels:                                               # Лейбл деплоймента
-    app: {{ .Release.name }}-app
+    app: {{ .Release.Name }}-app
     env: prod
     owner: OlegFilatov
 spec:                                                   ### Спецификация
@@ -11,17 +11,17 @@ spec:                                                   ### Спецификац
 
   selector:
     matchLabels:                                        # С какими лейблами подов будет работать деплоймент
-      app: mygifservice-pod
-      project: mygifservice-project
+      app: {{ .Release.Name }}-pod
+      project: {{ .Release.Name }}-project
 
   template:                                             ### Описание подов
     metadata:                                           ## Описание пода № 1
       labels:                                           # Лейблы подов Должны совпадать с selector
-        app: mygifservice-pod
-        project: mygifservice-project
+        app: {{ .Release.Name }}-pod
+        project: {{ .Release.Name }}-project
     spec:
       containers:                                       # Какие контейнеры будут запускаться в подах
-      - name: mygifservice-container
+      - name: {{ .Release.Name }}-container
         image: {{ .Values.container.image }}             # Можно менять версии (Является япеременной в Helm Chart)
         resources:
           limits:
