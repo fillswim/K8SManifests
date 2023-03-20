@@ -51,5 +51,11 @@ spec:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 50
+        averageUtilization: 50                          # Если средняя нагрузка на поды будет выше 50%, то autoscaling добавит подов, если ниже, по убавит их количество
 
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80                          # Если средняя нагрузка на поды будет выше 80%, то autoscaling добавит подов, если ниже, по убавит их количество
