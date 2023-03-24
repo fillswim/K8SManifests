@@ -76,6 +76,7 @@ metadata:                                 # Имя сервиса
 
 spec:
   type: LoadBalancer                      # Тип сервиса
+  loadBalancerIP: 192.168.2.151           # По какому адресу будет доступно приложение (http://192.168.2.151:8080/swagger-ui/index.html)
 
   selector:
     app: mygifservice-pod                 #! На поды с какими лейблами будет работать сервис, распространять трафик

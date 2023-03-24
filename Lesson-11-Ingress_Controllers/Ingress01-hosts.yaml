@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+
+spec:
+  rules:
+
+  - host: nginx.fillswim.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: nginx-deployment # Название сервиса, на который будет отправляться запрос
+            port: 
+              number: 80
+
+  - host: tomcat.fillswim.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: tomcat-deployment # Название сервиса, на который будет отправляться запрос
+            port: 
+              number: 8080
