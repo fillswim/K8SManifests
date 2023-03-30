@@ -1,7 +1,7 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:                                               ### Описание деплоймента
-  name: {{ .Release.Name }}-deployment                         # Название деплоймента (будет использоваться в автоселлере)
+  name: {{ .Release.Name }}-deployment                  # Название деплоймента (будет использоваться в автоселлере)
   labels:                                               # Лейбл деплоймента
     app: {{ .Release.Name }}-app
     env: prod
@@ -22,7 +22,7 @@ spec:                                                   ### Спецификац
     spec:
       containers:                                       # Какие контейнеры будут запускаться в подах
       - name: {{ .Release.Name }}-container
-        image: {{ .Values.container.image }}             # Можно менять версии (Является япеременной в Helm Chart)
+        image: {{ .Values.container.image }}            # Можно менять версии (Является япеременной в Helm Chart)
         resources:
           limits:
             memory: "1024Mi"
