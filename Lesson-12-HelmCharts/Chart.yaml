@@ -3,7 +3,7 @@ name:         App-HelmChart
 description:  My Helm chart for Kubernates
 type:         application
 version:      0.1.0 # This is the Helm Chart version
-appVersion:   "1.2.3" # This is the version of application being deoloyed
+appVersion:   "1.2.3" # This is the version of application being deployed
 
 keywords:
   - "apache"
