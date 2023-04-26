@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:                                   ### Описание деплоймента
+  name: {{ .Release.Name }}-deployment        # Название деплоймента (будет использоваться в автоселлере)
+  labels:                                     # Лейбл деплоймента
+    app: {{ .Release.Name }}-deployment-app
+    
+spec:                                       ### Спецификация
+  selector:                                   # С какими подами будет работать деплоймент должны совпадать с (template/metadata/labels)
+
+    matchLabels:                              # С какими лейблами подов будет работать деплоймент
+      app: {{ .Release.Name }}-pod
+
+  template:                                 ### Описание подов
+
+    metadata:                                 ## Описание пода
+      labels:                                   # Лейблы подов Должны совпадать с selector
+        app: {{ .Release.Name }}-pod            #! Сервис будет искать поды с этими лейблы, чтобы на них распределять трафик
+
+    spec:
+      containers:                               # Какие контейнеры будут запускаться в подах
+
+      - name: {{ .Release.Name }}-container     # Контейнер
+        image: {{ .Values.container.image }}
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: {{ .Values.containerPort }}    #!! Порт на поде

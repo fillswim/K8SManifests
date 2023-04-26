@@ -1,0 +1,32 @@
+apiVersion: autoscaling/v2                ### Описание autoscaling
+kind: HorizontalPodAutoscaler
+
+# kubectl apply -f My-Full-Manifests/Nginx-02-HPA.yaml
+# kubectl delete -f My-Full-Manifests/Nginx-02-HPA.yaml
+
+metadata:
+  name: nginx-autoscaling                 # Название autoscaling
+
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment                      # Что будет аутоскелить - Deployment
+    name: nginx-deployment                # С каким названием деплоймент будет автоскеллить (совпадает с названием деплоймента)
+
+  minReplicas: 2                          # Минимальное количество подов 
+  maxReplicas: 3                          # Максимальное количество подов
+
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50            # Если средняя нагрузка на поды будет выше 50%, то autoscaling добавит подов, если ниже, по убавит их количество
+
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80            # Если средняя нагрузка на поды будет выше 80%, то autoscaling добавит подов, если ниже, по убавит их количество

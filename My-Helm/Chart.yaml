@@ -1,0 +1,6 @@
+apiVersion:   v2
+name:         My-Template-HelmChart         # Название chart (будет в названии)
+description:  My template Helm chart        # Описание
+type:         application
+version:      0.0.1                         # Версия самого chart (будет в названии)
+appVersion:   "0.0.1"                       # Версия приложения (будет в развертывании)

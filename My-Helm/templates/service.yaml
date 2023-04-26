@@ -1,0 +1,14 @@
+apiVersion: v1                                          ### Описание Сервиса
+kind: Service
+
+metadata:                                               # Имя сервиса
+  name: {{ .Release.Name }}-service
+
+spec:
+  selector:
+    app: {{ .Release.Name }}-pod                        #! На поды с какими лейблами будет работать сервис, распространять трафик
+
+  ports:
+    - protocol: TCP
+      port: {{ .Values.servicePort }}                   # Какой порт будет на сервисе
+      targetPort: {{ .Values.containerPort }}           #!! Порт на поде

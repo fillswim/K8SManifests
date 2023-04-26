@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+
+# kubectl apply -f My-Full-Manifests/Nginx-04-Ingress.yaml
+# kubectl delete -f My-Full-Manifests/Nginx-04-Ingress.yaml
+
+spec:
+  rules:
+
+  - host: nginx.fillswim.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: nginx-service # Название сервиса, на который будет отправляться запрос
+            port: 
+              number: 81
