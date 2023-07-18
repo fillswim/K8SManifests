@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+
+# kubectl apply -f Volumes/Nginx-Deployment.yaml
+# kubectl delete -f Volumes/Nginx-Deployment.yaml
+
+metadata:                               ### Описание деплоймента
+  name: nginx-deployment                # Название деплоймента (будет использоваться в автоселлере)
+  namespace: volumes-sample
+  labels:                               # Лейбл деплоймента
+    app: nginx-deployment-app
+    
+spec:                                   ### Спецификация
+  selector:                             # С какими подами будет работать деплоймент должны совпадать с (template/metadata/labels)
+
+    matchLabels:                        # С какими лейблами подов будет работать деплоймент
+      app: nginx-pod
+      project: nginx-project
+
+  template:                             ### Описание подов
+
+    metadata:                           ## Описание пода
+      labels:                           # Лейблы подов Должны совпадать с selector
+        app: nginx-pod                  #! Сервис будет искать поды с этими лейблы, чтобы на них распределять трафик
+        project: nginx-project
+
+    spec:
+      containers:                       # Какие контейнеры будут запускаться в подах
+
+      - name: nginx-container           # Контейнер
+        image: nginx:latest
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80             #!! Порт на поде (Nginx)
+          name: http
+          protocol: TCP
+
+        volumeMounts:
+        - name: index-html
+          mountPath: /usr/share/nginx/html # /index.html
+
+      volumes:
+      - name: index-html
+        configMap:
+          name: index-html
