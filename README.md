@@ -1,3 +1,5 @@
+![K8s](images/K8s.png)
+
 # K8s Manifests
 
 ## Pods
