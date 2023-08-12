@@ -1,6 +1,4 @@
-[Kubernetes от ADV-IT](https://youtube.com/playlist?list=PLg5SS_4L6LYvN1RqaVesof8KAf-02fJSi)
-
-![K8s](images/K8s.png)
+## [Kubernetes от ADV-IT](https://youtube.com/playlist?list=PLg5SS_4L6LYvN1RqaVesof8KAf-02fJSi)
 
 # K8s Manifests
 
