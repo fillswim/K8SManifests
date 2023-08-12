@@ -1,0 +1,1 @@
+## [34 - Что такое ServiceAccount, Role, RoleBinding, ClusterRole и ClusterRoleBinding в Kubernetes](https://youtu.be/SSL4NmoOOb0)
