@@ -1,0 +1,1 @@
+[Kubernetes от BAKAVETS](https://youtube.com/playlist?list=PL3SzV1_k2H1VDePbSWUqERqlBXIk02wCQ)
