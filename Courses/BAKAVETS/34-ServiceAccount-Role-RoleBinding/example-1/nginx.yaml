@@ -1,3 +1,7 @@
+
+# kubectl apply -f Courses/BAKAVETS/34-ServiceAccount-Role-RoleBinding/example-1/nginx.yaml
+# kubectl delete -f Courses/BAKAVETS/34-ServiceAccount-Role-RoleBinding/example-1/nginx.yaml
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,6 +20,10 @@ spec:
       containers:
         - name: nginx
           image: nginx
+          resources:
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
           ports:
             - containerPort: 80
 ---

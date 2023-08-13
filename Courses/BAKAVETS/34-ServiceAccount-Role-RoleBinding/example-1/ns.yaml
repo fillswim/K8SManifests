@@ -1,0 +1,8 @@
+
+# kubectl apply -f Courses/BAKAVETS/34-ServiceAccount-Role-RoleBinding/example-1/ns.yaml
+# kubectl delete -f Courses/BAKAVETS/34-ServiceAccount-Role-RoleBinding/example-1/ns.yaml
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: example-1

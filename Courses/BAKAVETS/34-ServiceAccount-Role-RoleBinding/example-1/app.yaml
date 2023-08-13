@@ -1,3 +1,7 @@
+
+# kubectl apply -f Courses/BAKAVETS/34-ServiceAccount-Role-RoleBinding/example-1/app.yaml
+# kubectl delete -f Courses/BAKAVETS/34-ServiceAccount-Role-RoleBinding/example-1/app.yaml
+
 ---
 apiVersion: v1
 kind: Namespace
@@ -26,9 +30,9 @@ spec:
         - name: kuber-app
           image: bakavets/kuber:v1.0
           resources:
-          limits:
-            memory: "1024Mi"
-            cpu: "500m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
           ports:
             - containerPort: 8000
 ---
