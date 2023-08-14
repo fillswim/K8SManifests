@@ -6,3 +6,7 @@
 .obsidian/
 
 # End of https://www.toptal.com/developers/gitignore/api/obsidian
+
+# token and crt
+/Courses/BAKAVETS/34-ServiceAccount-Role-RoleBinding/example-1/token
+/Courses/BAKAVETS/34-ServiceAccount-Role-RoleBinding/example-1/ca.crt
