@@ -1,0 +1,17 @@
+apiVersion: v1
+
+# kubectl apply -f Volumes/PersistentVolume/01-static-pv/nfs/01-create-pv.yaml
+# kubectl delete -f Volumes/PersistentVolume/01-static-pv/nfs/01-create-pv.yaml
+
+kind: PersistentVolume                  # Кластерная сущность, namespace не указывается
+metadata:
+  name: test-nfs                        # Название PV (может использоваться в манифесте создания PVC)
+spec:
+  accessModes:
+  - ReadWriteMany                       # том может быть смонтирован к множеству подов в режиме чтения и записи
+  capacity:
+    storage: 1Gi
+  nfs:
+    path: /var/nfs/static-pv            # папка сохранения для PV
+    server: 192.168.2.59                # IP NFS сервера
+  persistentVolumeReclaimPolicy: Delete # после удаления PVC, PV удален не будет # при Delete - PV будет удален

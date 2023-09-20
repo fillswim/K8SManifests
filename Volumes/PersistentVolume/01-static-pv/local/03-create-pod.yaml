@@ -1,0 +1,37 @@
+apiVersion : v1
+
+# kubectl apply -f Volumes/PersistentVolume/01-static-pv/local/03-create-pod.yaml
+# kubectl delete -f Volumes/PersistentVolume/01-static-pv/local/03-create-pod.yaml
+
+kind: Pod                                   
+metadata:                                   
+  name: nginx-pod                           
+  namespace: volumes-sample
+  labels:                                   
+    name: nginx-label
+spec:
+#  affinity:                                               # выбор ноды для запуска пода
+#    nodeAffinity:
+#      requiredDuringSchedulingIgnoredDuringExecution:
+#        nodeSelectorTerms:
+#        - matchExpressions:
+#          - key: kubernetes.io/hostname
+#            operator: In
+#            values:
+#            - node5                                       # под может работать только на той ноде, на которой "path: /opt/local-pv"
+  containers:                               
+  - name: nginx-container                   
+    image: nginx:latest                     
+    resources:
+      limits:
+        memory: "1024Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 8080                 
+    volumeMounts:
+          - mountPath: /mnt/local                         # куда монтируется PVC внутри контейнера
+            name: claim-volume                            # наименование монтируемого PVC
+  volumes:
+    - name: claim-volume                                  # наименование монтируемого PVC в рамках манифеста пода
+      persistentVolumeClaim:
+        claimName: claim-local-pvc                        # наименование монтируемого PVC
