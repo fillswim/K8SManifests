@@ -1,0 +1,18 @@
+kind: PersistentVolumeClaim
+
+# kubectl apply -f Volumes/PersistentVolume/02-dynamic-pv/01-create-pvc.yaml
+# kubectl delete -f Volumes/PersistentVolume/02-dynamic-pv/01-create-pvc.yaml
+
+apiVersion: v1
+metadata:
+  name: claim-nfs-pvc
+  namespace: volumes-sample
+#  annotations:
+#    volume.beta.kubernetes.io/storage-class: "nfs-client"
+spec:
+  storageClassName: "nfs-client"
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
