@@ -1,7 +1,7 @@
 kind: PersistentVolumeClaim
 
-# kubectl apply -f Volumes/PersistentVolume/02-dynamic-pv/01-create-pvc.yaml
-# kubectl delete -f Volumes/PersistentVolume/02-dynamic-pv/01-create-pvc.yaml
+# kubectl apply -f Courses/Kryukov/Volumes/06-PV-PVC/02-Dynamic-PV/01-PVC.yaml
+# kubectl delete -f Courses/Kryukov/Volumes/06-PV-PVC/02-Dynamic-PV/01-PVC.yaml
 
 apiVersion: v1
 metadata:

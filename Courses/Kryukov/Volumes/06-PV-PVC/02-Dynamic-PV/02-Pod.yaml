@@ -1,7 +1,7 @@
 apiVersion : v1
 
-# kubectl apply -f Volumes/PersistentVolume/02-dynamic-pv/02-create-pod.yaml
-# kubectl delete -f Volumes/PersistentVolume/02-dynamic-pv/02-create-pod.yaml
+# kubectl apply -f Courses/Kryukov/Volumes/06-PV-PVC/02-Dynamic-PV/02-Pod.yaml
+# kubectl delete -f Courses/Kryukov/Volumes/06-PV-PVC/02-Dynamic-PV/02-Pod.yaml
 
 kind: Pod                                   
 metadata:                                   

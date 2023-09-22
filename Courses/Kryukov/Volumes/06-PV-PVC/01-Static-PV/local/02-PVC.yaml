@@ -1,13 +1,14 @@
 apiVersion: v1
 
-# kubectl apply -f Volumes/PersistentVolume/01-static-pv/local/02-create-pvc.yaml
-# kubectl delete -f Volumes/PersistentVolume/01-static-pv/local/02-create-pvc.yaml
+# kubectl apply -f Courses/Kryukov/Volumes/06-PV-PVC/01-Static-PV/local/02-PVC.yaml
+# kubectl delete -f Courses/Kryukov/Volumes/06-PV-PVC/01-Static-PV/local/02-PVC.yaml
 
 kind: PersistentVolumeClaim
 metadata:
   name: claim-local-pvc           # Название PVC (будет использоваться в манифесте создания Пода)
   namespace: volumes-sample
 spec:
+  storageClassName: ""
   accessModes:
   - ReadWriteOnce
   resources:

@@ -1,7 +1,7 @@
 apiVersion: v1
 
-# kubectl apply -f Volumes/PersistentVolume/01-static-pv/local/01-create-pv.yaml
-# kubectl delete -f Volumes/PersistentVolume/01-static-pv/local/01-create-pv.yaml
+# kubectl apply -f Courses/Kryukov/Volumes/06-PV-PVC/01-Static-PV/local/01-PV.yaml
+# kubectl delete -f Courses/Kryukov/Volumes/06-PV-PVC/01-Static-PV/local/01-PV.yaml
 
 kind: PersistentVolume                  # Кластерная сущность, namespace не указывается
 metadata:

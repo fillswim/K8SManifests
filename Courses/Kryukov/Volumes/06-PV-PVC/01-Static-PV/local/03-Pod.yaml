@@ -1,7 +1,7 @@
 apiVersion : v1
 
-# kubectl apply -f Volumes/PersistentVolume/01-static-pv/local/03-create-pod.yaml
-# kubectl delete -f Volumes/PersistentVolume/01-static-pv/local/03-create-pod.yaml
+# kubectl apply -f Courses/Kryukov/Volumes/06-PV-PVC/01-Static-PV/local/03-Pod.yaml
+# kubectl delete -f Courses/Kryukov/Volumes/06-PV-PVC/01-Static-PV/local/03-Pod.yaml
 
 kind: Pod                                   
 metadata:                                   
