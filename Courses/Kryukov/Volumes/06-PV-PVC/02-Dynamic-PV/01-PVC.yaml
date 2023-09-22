@@ -7,8 +7,7 @@ apiVersion: v1
 metadata:
   name: claim-nfs-pvc
   namespace: volumes-sample
-#  annotations:
-#    volume.beta.kubernetes.io/storage-class: "nfs-client"
+
 spec:
   storageClassName: "nfs-client"
   accessModes:

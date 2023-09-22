@@ -1,49 +1,42 @@
-apiVersion: apps/v1
+apiVersion : apps/v1
 
 # kubectl apply -f Courses/Kryukov/Volumes/06-PV-PVC/02-Dynamic-PV/03-Deployment.yaml
 # kubectl delete -f Courses/Kryukov/Volumes/06-PV-PVC/02-Dynamic-PV/03-Deployment.yaml
 
 kind: Deployment
-metadata:
-  name: openresty-local
+metadata:                                     ### Описание деплоймента
+  name: mygifservice-deployment               # Название деплоймента
   namespace: volumes-sample
-  labels:
-    app: openresty
-spec:
-  replicas: 3
-  revisionHistoryLimit: 3
+  labels:                                     # Лейбл деплоймента
+    app: mygifservice-app
+
+spec:                                         ### Спецификация
+  replicas: 3                                 # Т.к. в PV и PVC AccessModes: ReadWriteMany (Volume том может быть смонтирован к множеству подов в режиме чтения и записи) 
+
   selector:
-    matchLabels:
-      app: openresty
-  template:
-    metadata:
-      labels:
-        app: openresty
+    matchLabels:                              # С какими лейблами подов будет работать деплоймент
+      app: mygifservice-app
+      project: mygifservice-project
+
+  template:                                   ### Описание подов
+    metadata:                                 ## Описание пода № 1
+      labels:                                 # Лейблы подов Должны совпадать с selector
+        app: mygifservice-app
+        project: mygifservice-project
     spec:
-      containers:
-      - name: openresty
-        image: openresty/openresty:centos-rpm
-        imagePullPolicy: IfNotPresent
-        env:
-        - name: NGINX_HOST
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
+      containers:                             # Какие контейнеры будут запускаться в подах
+      - name: mygifservice-container
+        image: fillswim/mygifservice:latest
         resources:
           limits:
-            cpu: "0.2"
-            memory: "300Mi"
-          requests:
-            cpu: "0.1"
-            memory: "100Mi"
+            memory: "1024Mi"
+            cpu: "500m"
         ports:
-        - containerPort: 80
-          name: http
-          protocol: TCP
+        - containerPort: 8080
         volumeMounts:
-          - mountPath: /mnt/nfs
+          - mountPath: /mnt/nfs             # куда монтируется PVC внутри контейнера
             name: claim-volume
       volumes:
         - name: claim-volume
           persistentVolumeClaim:
-            claimName: claim-nfs-pvc
+            claimName: claim-nfs-pvc        # наименование монтируемого PVC
