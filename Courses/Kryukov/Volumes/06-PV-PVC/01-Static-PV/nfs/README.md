@@ -48,11 +48,15 @@ kubectl apply -f Courses/Kryukov/Volumes/06-PV-PVC/01-Static-PV/nfs/04-Deploymen
 Т.к. 
 Количество реплик:
 ```bash
+# 04-Deployment.yaml
+
 spec:                                         ### Спецификация
-  replicas: 3                                 # !Количество реплик пода
+  replicas: 3                                 # Т.к. в PV и PVC AccessModes: ReadWriteMany (Volume том может быть смонтирован к множеству подов в режиме чтения и записи)
 ```
 Монтируемые volumes:
 ```bash
+# 04-Deployment.yaml
+
         volumeMounts:
           - mountPath: /mnt/nfs             # куда монтируется PVC внутри контейнера
             name: claim-volume
@@ -60,7 +64,6 @@ spec:                                         ### Спецификация
         - name: claim-volume
           persistentVolumeClaim:
             claimName: claim-nfs-pvc        # наименование монтируемого PVC
-
 ```
 
 Во все поды монтируется Volume в папку "/mnt/nfs" внутри контейнеров и папку "/var/nfs/static-pv" на NFS сервере
