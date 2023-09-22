@@ -52,12 +52,12 @@ kubectl apply -f Courses/Kryukov/Volumes/06-PV-PVC/01-Static-PV/local/03-Pod.yam
 Монтируемый Volume:
 ```bash
     volumeMounts:
-          - mountPath: /mnt/local   # куда монтируется PVC внутри контейнера
-            name: claim-volume      # наименование монтируемого PVC
+          - mountPath: /mnt/local           # куда монтируется PVC внутри контейнера
+            name: claim-volume              # наименование монтируемого PVC
   volumes:
-    - name: claim-volume            # наименование монтируемого PVC в рамках манифеста пода
+    - name: claim-volume                    # наименование монтируемого PVC в рамках манифеста пода
       persistentVolumeClaim:
-        claimName: claim-local-pvc  # наименование монтируемого PVC
+        claimName: claim-local-pvc          # наименование монтируемого PVC
 ```
 
 Volume монтируется в папку "/mnt/local" внутри контейнера и папку "/opt/local-pv" на node4
