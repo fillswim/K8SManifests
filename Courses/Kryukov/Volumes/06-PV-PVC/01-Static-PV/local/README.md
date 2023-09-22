@@ -74,5 +74,23 @@ Volume монтируется в папку "/mnt/local" внутри конте
 
 ## Создание Deployment
 ```bash
+# 04-Deployment.yaml
+spec:                                         ### Спецификация
+  replicas: 1                                 # Т.к. в PV и PVC AccessModes: ReadWriteOnce (Volume доступен только на одном поде) 
+```
+```bash
+# 04-Deployment.yaml
+
+        volumeMounts:
+          - mountPath: /mnt/local             # куда монтируется PVC внутри контейнера
+            name: claim-volume
+      volumes:
+        - name: claim-volume
+          persistentVolumeClaim:
+            claimName: claim-local-pvc        # наименование монтируемого PVC
+
+```
+
+```bash
 kubectl apply -f Courses/Kryukov/Volumes/06-PV-PVC/01-Static-PV/local/04-Deployment.yaml
 ```
