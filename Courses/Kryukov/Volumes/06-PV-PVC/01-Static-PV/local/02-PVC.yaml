@@ -8,9 +8,9 @@ metadata:
   name: claim-local-pvc           # Название PVC (будет использоваться в манифесте создания Пода)
   namespace: volumes-sample
 spec:
-  storageClassName: ""
+  storageClassName: ""            # Чтобы не выбрать SC, который назначен по умолчанию
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteOnce                 # # том может быть смонтирован на чтение и запись к одному поду
   resources:
     requests:
       storage: 1Gi                # Желаемый объем PV

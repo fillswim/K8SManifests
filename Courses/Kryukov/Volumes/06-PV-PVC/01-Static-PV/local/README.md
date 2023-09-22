@@ -25,6 +25,14 @@ test-local   1Gi        RWO            Retain           Available               
 
 ## Создание PVC с именем "claim-local-pvc", который ссылается на PVC "test-local":
 ```bash
+# 02-PVC.yaml
+spec:
+  storageClassName: ""            # Чтобы не выбрать SC, который назначен по умолчанию
+  accessModes:
+  - ReadWriteOnce                 # # том может быть смонтирован на чтение и запись к одному поду
+```
+
+```bash
 kubectl apply -f Courses/Kryukov/Volumes/06-PV-PVC/01-Static-PV/local/02-PVC.yaml
 ```
 
@@ -35,6 +43,8 @@ kubectl get pvc -n volumes-sample
 NAME              STATUS   VOLUME       CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 claim-local-pvc   Bound    test-local   1Gi        RWO                           53s
 ```
+
+
 
 Просмтор PV:
 ```bash
