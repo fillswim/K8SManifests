@@ -1,0 +1,17 @@
+kind: PersistentVolumeClaim
+
+# kubectl apply -f Courses/Kryukov/Volumes/09-Longhorn/01-PVC.yaml
+# kubectl delete -f Courses/Kryukov/Volumes/09-Longhorn/01-PVC.yaml
+
+apiVersion: v1
+metadata:
+  name: claim-longhorn-pvc
+  namespace: volumes-sample
+
+spec:
+  storageClassName: "longhorn"
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
