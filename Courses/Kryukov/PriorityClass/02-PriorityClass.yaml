@@ -1,0 +1,13 @@
+---
+apiVersion: scheduling.k8s.io/v1
+
+# kubectl apply -f Courses/Kryukov/PriorityClass/02-PriorityClass.yaml
+# kubectl delete -f Courses/Kryukov/PriorityClass/02-PriorityClass.yaml
+
+kind: PriorityClass
+metadata:
+  name: high-priority
+value: 1000000
+globalDefault: false    # Данный PriorityClass будет назначаться по умолчанию для всех подов, у которых этот класс не определен
+preemptionPolicy: Never # Поды с указанным PriorityClass, при добавлении в систему не будут вытеснять поды с меньшим приоритетом
+description: "Test preemptionPolicy - Never priorityclass"

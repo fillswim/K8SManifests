@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+
+# kubectl apply -f Courses/Kryukov/PriorityClass/01-NameSpace.yaml
+# kubectl delete -f Courses/Kryukov/PriorityClass/01-NameSpace.yaml
+
+kind: Namespace
+metadata:
+  name: kubetest
+  labels:
+    app: kubetest

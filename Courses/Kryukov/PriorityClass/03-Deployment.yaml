@@ -1,0 +1,36 @@
+apiVersion : apps/v1
+
+# kubectl apply -f Courses/Kryukov/PriorityClass/03-Deployment.yaml
+# kubectl delete -f Courses/Kryukov/PriorityClass/03-Deployment.yaml
+
+kind: Deployment
+
+metadata:                                         ### Описание деплоймента
+  name: mygifservice-deployment                   # Название деплоймента
+  namespace: kubetest
+  labels:                                         # Лейбл деплоймента
+    app: mygifservice-dep-app
+
+spec:                                             ### Спецификация
+
+  selector:                                       
+    matchLabels:                                  # С какими лейблами подов будет работать деплоймент
+      app: mygifservice-pod
+      project: mygifservice-project
+
+  template:                                       ### Описание подов
+    metadata:                                     ## Описание пода № 1
+      labels:                                     # Лейблы подов Должны совпадать с selector
+        app: mygifservice-pod
+        project: mygifservice-project
+    spec:
+      containers:                                 # Какие контейнеры будут запускаться в подах
+      - name: mygifservice-container
+        image: fillswim/mygifservice:latest
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080                     # Открытый порт
+      priorityClassName: high-priority
