@@ -9,9 +9,10 @@ metadata:
   namespace: volumes-sample
 
 spec:
-  storageClassName: "longhorn"
+  #storageClassName: "longhorn"             # "longhorn" - PV удаляться при удалении PVC
+  storageClassName: "longhorn-retain"      # "longhorn-retain" - PV удаляться не будут
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 1Mi
+      storage: 100Mi

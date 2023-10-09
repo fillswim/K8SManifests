@@ -1,0 +1,19 @@
+apiVersion: storage.k8s.io/v1
+
+# Собствееный StorageClass Longhorn c reclaimPolicy Retain
+
+# kubectl apply -f Courses/Kryukov/Volumes/09-Longhorn/00-StorageClass-Longhorn-Retain.yaml
+# kubectl delete -f Courses/Kryukov/Volumes/09-Longhorn/00-StorageClass-Longhorn-Retain.yaml
+
+kind: StorageClass
+metadata:
+  name: longhorn-retain
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+parameters:
+  numberOfReplicas: "3"
+  staleReplicaTimeout: "2880"
+  fromBackup: ""
+  fsType: "ext4"

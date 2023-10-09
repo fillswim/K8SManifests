@@ -1,0 +1,18 @@
+apiVersion: v1
+
+# kubectl apply -f Courses/ThatDevOpsGuy/StatefulSets/02-Service.yaml
+# kubectl delete -f Courses/ThatDevOpsGuy/StatefulSets/02-Service.yaml
+
+kind: Service
+metadata:
+  name: statefulset-service
+  namespace: statefulset-example
+  labels:
+    app: mygifservice-app
+spec:
+  ports:
+  - port: 8080
+    name: web
+  clusterIP: None
+  selector:
+    app: mygifservice-app
