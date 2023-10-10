@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+
+# kubectl apply -f DB/MySQL/03-StatefulSet.yaml
+# kubectl delete -f DB/MySQL/03-StatefulSet.yaml
+
+kind: StatefulSet
+metadata:
+  name: mysql-set
+  namespace: statefulset-example
+
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+
+  serviceName: "mysql"
+
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: mysql
+        image: mysql:5.7
+        args:
+        - "--ignore-db-dir=lost+found"
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysql-store
+          mountPath: /var/lib/mysql
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-password
+                key: MYSQL_ROOT_PASSWORD
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-store
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: "longhorn-retain"
+      resources:
+        requests:
+          storage: 1Gi

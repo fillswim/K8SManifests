@@ -1,0 +1,17 @@
+apiVersion: v1
+
+# kubectl apply -f DB/MySQL/02-Headless-Service.yaml
+# kubectl delete -f DB/MySQL/02-Headless-Service.yaml
+
+kind: Service
+metadata:
+  name: mysql
+  namespace: statefulset-example
+  labels:
+    app: mysql
+spec:
+  ports:
+  - port: 3306
+  clusterIP: None
+  selector:
+    app: mysql

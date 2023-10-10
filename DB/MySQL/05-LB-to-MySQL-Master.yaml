@@ -1,0 +1,23 @@
+apiVersion: v1                            ### Описание Сервиса
+
+# kubectl apply -f DB/MySQL/05-LB-to-MySQL-Master.yaml
+# kubectl delete -f DB/MySQL/05-LB-to-MySQL-Master.yaml
+
+kind: Service
+metadata:                                 # Имя сервиса
+  name: lb-mysql-master
+  namespace: statefulset-example
+  labels:                                 # Лейблы сервиса
+    app: mysql
+
+spec:
+  type: LoadBalancer                      # Тип сервиса
+  loadBalancerIP: 192.168.2.154           # По какому адресу будет доступно приложение
+
+  selector:
+    app: mysql                                          #! На поды с какими лейблами будет работать сервис, распространять трафик
+    statefulset.kubernetes.io/pod-name: mysql-set-0     # На какой конкретно под будет направляться трафик
+
+  ports:
+  - port: 3306                            # Какой на Load Balancer будет открыть порт (внешний)
+    targetPort: 3306                      #!! Порт на поде

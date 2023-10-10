@@ -1,0 +1,20 @@
+apiVersion: v1
+
+# kubectl apply -f DB/MySQL/04-Pod-Client.yaml
+# kubectl delete -f DB/MySQL/04-Pod-Client.yaml
+
+kind: Pod
+metadata:
+  name: mysql-client
+  namespace: statefulset-example
+
+spec:
+  containers:
+  - name: mysql-container
+    image: alpine
+    command: ['sh','-c', "sleep 1800m"]
+    imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        memory: "1024Mi"
+        cpu: "500m"
