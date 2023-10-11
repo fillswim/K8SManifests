@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+
+# kubectl apply -f Courses/BAKAVETS/39-Taints/01-NameSpace.yaml
+# kubectl delete -f Courses/BAKAVETS/39-Taints/01-NameSpace.yaml
+
+kind: Namespace
+metadata:
+  name: taints-example
+  labels:
+    app: taints-example

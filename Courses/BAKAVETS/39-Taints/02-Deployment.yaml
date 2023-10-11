@@ -1,0 +1,66 @@
+apiVersion : apps/v1
+
+# Create taint
+# kubectl taint nodes node5 key1=value1:NoSchedule
+# kubectl taint nodes node5 key1=value1:NoExecute
+# Delete taint
+# kubectl taint nodes node5 key1=value1:NoSchedule-
+# kubectl taint nodes node5 key1=value1:NoExecute-
+
+# kubectl apply -f Courses/BAKAVETS/39-Taints/02-Deployment.yaml
+# kubectl delete -f Courses/BAKAVETS/39-Taints/02-Deployment.yaml
+
+kind: Deployment
+metadata:                                     ### Описание деплоймента
+  name: mygifservice-deployment               # Название деплоймента
+  namespace: taints-example
+  labels:                                     # Лейбл деплоймента
+    app: mygifservice-app
+    env: prod
+    owner: OlegFilatov
+
+spec:                                         ### Спецификация
+  replicas: 3                                 # !Количество реплик пода
+
+  selector:
+    matchLabels:                              # С какими лейблами подов будет работать деплоймент
+      app: mygifservice-app
+      project: mygifservice-project
+
+  template:                                   ### Описание подов
+    metadata:                                 ## Описание пода № 1
+      labels:                                 # Лейблы подов Должны совпадать с selector
+        app: mygifservice-app
+        project: mygifservice-project
+    spec:
+      containers:                             # Какие контейнеры будут запускаться в подах
+      - name: mygifservice-container
+        image: fillswim/mygifservice:latest
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+      
+      # Вариант № 1                 Применяется для конкретного значения value в key1
+      #tolerations:
+      #- key: "key1"
+      #  operator: "Equal"
+      #  value: "value1"
+      #  effect: "NoSchedule"
+
+      # Вариант № 2                 Применяется для любого value в key1
+      #tolerations:
+      #- key: "key1"
+      #  operator: "Exists"
+      #  effect: "NoSchedule"
+
+      # Вариант № 3                 Поды с толерантностью к NoExecute и без tolerationSeconds останутся исполняться навсегда
+      #                             Поды с толерантностью к NoExecute, но с tolerationSeconds удалятся через tolerationSeconds
+      tolerations:
+      - key: "key1"
+        operator: "Equal"
+        value: "value1"
+        effect: "NoExecute"
+        tolerationSeconds: 3600
