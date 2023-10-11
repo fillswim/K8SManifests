@@ -1,0 +1,38 @@
+apiVersion: v1
+
+# kubectl apply -f Courses/BAKAVETS/38-Affinity/04-Pod-NodeAffinity.yaml
+# kubectl delete -f Courses/BAKAVETS/38-Affinity/04-Pod-NodeAffinity.yaml
+
+kind: Pod
+metadata:
+  name: nginx
+  namespace: affinity-example
+
+spec:
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/os
+            operator: In
+            values:
+            - linux
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1                                              # Веса суммируются для каждой ноды при выборе ее
+        preference:
+          matchExpressions:
+            - key: disktype
+              operator: In
+              values:
+              - ssd
+
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+    imagePullPolicy: IfNotPresent
